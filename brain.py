@@ -12,7 +12,7 @@ def save_model(data_path, model_path):
     X = data.drop(columns=['Diagnosis', 'DoctorInCharge', 'PatientID'])
     y = data['Diagnosis']
     
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=42)
     model = RandomForestClassifier(random_state=42)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
@@ -37,3 +37,10 @@ def accuracy(data_path, model_path):
     model = joblib.load(model_path)
     y_pred = model.predict(X)
     return accuracy_score(y, y_pred)
+
+
+
+if __name__ == "__main__":
+    save_model('data/input.csv', 'models/model.joblib')
+    accuracy_value = accuracy('data/test.csv', 'models/model.joblib') * 100
+    print(f"Model accuracy: {accuracy_value:.2f}")
